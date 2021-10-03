@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestAPIPractice", "RestAPIPractice\RestAPIPractice.csproj", "{C1CF40A5-3A12-4798-8737-F1263905D587}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{A75F4F47-67C9-4F37-B03B-181986AE200C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{9D1E8D1C-E582-43A1-832E-A33678521218}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1CF40A5-3A12-4798-8737-F1263905D587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CF40A5-3A12-4798-8737-F1263905D587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CF40A5-3A12-4798-8737-F1263905D587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CF40A5-3A12-4798-8737-F1263905D587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A75F4F47-67C9-4F37-B03B-181986AE200C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A75F4F47-67C9-4F37-B03B-181986AE200C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A75F4F47-67C9-4F37-B03B-181986AE200C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A75F4F47-67C9-4F37-B03B-181986AE200C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D1E8D1C-E582-43A1-832E-A33678521218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D1E8D1C-E582-43A1-832E-A33678521218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D1E8D1C-E582-43A1-832E-A33678521218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D1E8D1C-E582-43A1-832E-A33678521218}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6919A18-9DCD-488F-AFCB-E3218D29C2AC}
+	EndGlobalSection
+EndGlobal

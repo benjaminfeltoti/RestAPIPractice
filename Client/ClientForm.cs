@@ -1,6 +1,6 @@
 ﻿using RestAPIPractice.Models;
 using System;
-
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows.Forms;
@@ -25,9 +25,40 @@ namespace Client
             client.BaseAddress = new Uri("https://localhost:5001/");
         }
 
-        private void uploadButton_Click(object sender, EventArgs e)
+        private async void uploadButton_Click(object sender, EventArgs e)
         {
-            //await client.PostAsync("api/dokumentumok", ); FileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+
+            var fileModel = new FileModel();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileModel.FileFullPath = openFileDialog.FileName;
+                var filePathAsArray = openFileDialog.FileName.Split('\\');
+                
+                fileModel.FileName = filePathAsArray[filePathAsArray.Length - 1];
+
+                var fileContent = System.IO.File.ReadAllBytes(openFileDialog.FileName);
+                fileModel.Content = Convert.ToBase64String(fileContent);
+            }
+
+            string content = JsonSerializer.Serialize(fileModel);
+
+            // TODO: Handle timeouts
+            try
+            {
+                await client.PostAsync("api/dokumentumok", new FormUrlEncodedContent(
+                    new Dictionary<string, string>() { 
+                        { "FileName", JsonSerializer.Serialize(fileModel.FileName) }, 
+                        { "FileFullPath", JsonSerializer.Serialize(fileModel.FileFullPath) },
+                        { "Content", JsonSerializer.Serialize(fileModel.Content) }
+                    })) ;
+            }
+            catch (Exception)
+            {
+                //Suspend
+            }
         }
 
         private async void downloadButton_Click(object sender, EventArgs e)
@@ -69,6 +100,7 @@ namespace Client
                 string responseJson = await response.Content.ReadAsStringAsync();
 
                 fileModels = JsonSerializer.Deserialize<FileModel[]>(responseJson);
+                filesListView.Items.Clear();
 
                 foreach (var file in fileModels)
                 {

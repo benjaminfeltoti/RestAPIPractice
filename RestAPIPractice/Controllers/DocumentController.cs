@@ -68,7 +68,7 @@ namespace RestAPIPractice.Controllers
                 //TODO : Handle errors
                 responseString = "ERROR! Given filename could not be read!";
             }
-            
+
             return JsonSerializer.Serialize(responseString);
         }
 
@@ -81,9 +81,11 @@ namespace RestAPIPractice.Controllers
                 return;
             }
 
+            value.FileName = JsonSerializer.Deserialize<string>(value.FileName);
+
             try
             {
-                var bytes = Convert.FromBase64String(value.Content);
+                var bytes = Convert.FromBase64String(JsonSerializer.Deserialize<string>(value.Content));
                 //TODO: Check if file already exists with the name. If yes, add a number to the name.
                 System.IO.File.WriteAllBytesAsync(Settings.DocumentsFolderPath + "\\" + value.FileName, bytes);
             }

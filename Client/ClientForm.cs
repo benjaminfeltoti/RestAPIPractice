@@ -27,7 +27,7 @@ namespace Client
 
         private void uploadButton_Click(object sender, EventArgs e)
         {
-            //await client.PostAsync("api/dokumentumok", );
+            //await client.PostAsync("api/dokumentumok", ); FileDialog
         }
 
         private async void downloadButton_Click(object sender, EventArgs e)
@@ -37,7 +37,27 @@ namespace Client
                 responseTextBox.Text = "Select an item to download!";
             }
 
+            var fileName = filesListView.SelectedItems[0].Text;
 
+            var response = await client.GetAsync("api/dokumentumok" + '/' + fileName);
+
+            string responseJson = await response.Content.ReadAsStringAsync();
+            // TODO : Exception handling
+            var fileBase64 = JsonSerializer.Deserialize<string>(responseJson);
+
+            byte[] fileBytes = Convert.FromBase64String(fileBase64);
+
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderBrowserDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+                {
+                    // TODO : Choose unique filename if already taken.
+                    System.IO.File.WriteAllBytes(folderBrowserDialog.SelectedPath + "\\" + fileName, fileBytes);
+                    responseTextBox.Text = "Download was successfull at : " + folderBrowserDialog.SelectedPath;
+                }
+            }
         }
 
         private async void refreshButton_Click(object sender, EventArgs e)

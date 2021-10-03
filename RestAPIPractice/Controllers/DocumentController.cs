@@ -51,7 +51,7 @@ namespace RestAPIPractice.Controllers
 
             var targetFilePath = Settings.DocumentsFolderPath + '\\' + fileName;
 
-            if (String.IsNullOrWhiteSpace(fileName) || !Directory.Exists(targetFilePath))
+            if (String.IsNullOrWhiteSpace(fileName) || !System.IO.File.Exists(targetFilePath))
             {
                 //TODO : Respond as an error correctly
                 responseString = "ERROR! Given filename is incorrect or file could not be found.";
@@ -69,7 +69,7 @@ namespace RestAPIPractice.Controllers
                 responseString = "ERROR! Given filename could not be read!";
             }
             
-            return responseString;
+            return JsonSerializer.Serialize(responseString);
         }
 
         // POST api/dokumentumok

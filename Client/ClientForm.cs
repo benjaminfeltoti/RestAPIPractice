@@ -42,18 +42,25 @@ namespace Client
                 var fileContent = System.IO.File.ReadAllBytes(openFileDialog.FileName);
                 fileModel.Content = Convert.ToBase64String(fileContent);
             }
+                        
+            var postData = new List<KeyValuePair<string, string>>();
 
-            string content = JsonSerializer.Serialize(fileModel);
-
+            postData.Add(new KeyValuePair<string, string>("FileName", fileModel.FileName));
+            postData.Add(new KeyValuePair<string, string>("FileFullPath", fileModel.FileFullPath));
+            postData.Add(new KeyValuePair<string, string>("Content", fileModel.Content));
+            
+            // POST
             // TODO: Handle timeouts
             try
             {
-                await client.PostAsync("api/dokumentumok", new FormUrlEncodedContent(
-                    new Dictionary<string, string>() { 
-                        { "FileName", JsonSerializer.Serialize(fileModel.FileName) }, 
-                        { "FileFullPath", JsonSerializer.Serialize(fileModel.FileFullPath) },
-                        { "Content", JsonSerializer.Serialize(fileModel.Content) }
-                    })) ;
+                FormUrlEncodedContent content = new FormUrlEncodedContent(postData);
+
+                HttpResponseMessage response = await client.PostAsync("api/dokumentumok", content);
+                responseTextBox.Text = response.StatusCode.ToString();
+            }
+            catch (UriFormatException uriException)
+            {
+                responseTextBox.Text = "Given filepath was too long / file is too big!";
             }
             catch (Exception)
             {
@@ -66,6 +73,7 @@ namespace Client
             if (filesListView.SelectedItems.Count != 1)
             {
                 responseTextBox.Text = "Select an item to download!";
+                return;
             }
 
             var fileName = filesListView.SelectedItems[0].Text;

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using RestAPIPractice.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -81,11 +80,11 @@ namespace RestAPIPractice.Controllers
                 return;
             }
 
-            value.FileName = JsonSerializer.Deserialize<string>(value.FileName);
+            value.FileName = value.FileName;
 
             try
             {
-                var bytes = Convert.FromBase64String(JsonSerializer.Deserialize<string>(value.Content));
+                var bytes = Convert.FromBase64String(value.Content);
                 //TODO: Check if file already exists with the name. If yes, add a number to the name.
                 System.IO.File.WriteAllBytesAsync(Settings.DocumentsFolderPath + "\\" + value.FileName, bytes);
             }
@@ -94,6 +93,7 @@ namespace RestAPIPractice.Controllers
             }
 
             // Validate File
+            return;
         }
 
     }
